@@ -21,6 +21,6 @@ public class ProductDTO {
     private double specialPrice;
 
     @ManyToOne
-    @JoinColumn(name="caterogy_ID")
+    @JoinColumn(name="caterogy_id")
     private Caterogy caterogy;
 }
