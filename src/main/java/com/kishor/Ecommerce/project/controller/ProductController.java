@@ -36,15 +36,25 @@ public class ProductController {
         return new ResponseEntity<>( productResponse,HttpStatus.OK);
     }
     @GetMapping("/public/categories/{caterogyID}/products")
-    public ResponseEntity<ProductResponse>getProductByCategory(@PathVariable Long caterogyID){
-        ProductResponse productResponse=productService.searchByCategory(caterogyID);
+    public ResponseEntity<ProductResponse>getProductByCategory(@PathVariable Long caterogyID
+            ,@RequestParam(name = "pageNumber",defaultValue = AppConstant.PAGE_NUMBER,required = false)Integer pageNumber,
+                                                               @RequestParam(name = "pageSize",defaultValue = AppConstant.PAGE_SIZE,required = false)Integer pageSize,
+                                                               @RequestParam(name = "sortBy",defaultValue = AppConstant.SORT_CATEGORIES_BY)String sortBy,
+                                                               @RequestParam(name = "sortOrder",defaultValue = AppConstant.SORT_DIR)String sortOrder
+                                                               ){
+        ProductResponse productResponse=productService.searchByCategory(caterogyID,pageNumber,pageSize,sortBy,sortOrder);
         return new ResponseEntity<>(productResponse,HttpStatus.OK);
     }
     @GetMapping("/public/products/keyword/{keyword}")
     public ResponseEntity<ProductResponse> getProductByKeyword(
-            @PathVariable String keyword) {
+            @PathVariable String keyword,
+            @RequestParam(name = "pageNumber",defaultValue = AppConstant.PAGE_NUMBER,required = false)Integer pageNumber,
+            @RequestParam(name = "pageSize",defaultValue = AppConstant.PAGE_SIZE,required = false)Integer pageSize,
+            @RequestParam(name = "sortBy",defaultValue =AppConstant.SORT_PRODUCTS_BY,required = false)String sortBy,
+            @RequestParam(name = "sortOrder",defaultValue = AppConstant.SORT_DIR,required = false)String sortOrder
+            ) {
 
-        ProductResponse productResponse = productService.searchProductByKeyword(keyword);
+        ProductResponse productResponse = productService.searchProductByKeyword(keyword,pageNumber,pageSize,sortBy,sortOrder);
         return new ResponseEntity<>(productResponse, HttpStatus.OK);
     }
     @PutMapping("/admin/products/{productId}")
