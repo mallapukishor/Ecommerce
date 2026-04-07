@@ -5,25 +5,21 @@ import com.kishor.Ecommerce.project.exceptions.RescourceNotFoundException;
 import com.kishor.Ecommerce.project.model.Caterogy;
 import com.kishor.Ecommerce.project.payload.CaterogyDTO;
 import com.kishor.Ecommerce.project.payload.CaterogyResponse;
-import com.kishor.Ecommerce.project.repository.CaterogyReposistory;
+import com.kishor.Ecommerce.project.repository.CaterogyRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ServiceController implements ServiceContro{
     @Autowired
-    private CaterogyReposistory caterogyReposistory;
+    private CaterogyRepository caterogyRepository;
     @Autowired
     private ModelMapper modelMapper;
     @Override
@@ -32,7 +28,7 @@ public class ServiceController implements ServiceContro{
                 ?Sort.by(sortBy).ascending()
                 :Sort.by(sortBy).descending();
         Pageable pageDetails= PageRequest.of(pageNumber,pageSize,sortByAndOrder);
-        Page<Caterogy>caterogyPage=caterogyReposistory.findAll(pageDetails);
+        Page<Caterogy>caterogyPage=caterogyRepository.findAll(pageDetails);
 
         List<Caterogy>caterogies=caterogyPage.getContent();
         if(caterogies.isEmpty())
@@ -53,29 +49,29 @@ public class ServiceController implements ServiceContro{
     @Override
     public CaterogyDTO createCaterogy(CaterogyDTO caterogyDTO) {
         Caterogy caterogy =modelMapper.map(caterogyDTO, Caterogy.class);
-        Caterogy CaterogyfromDB=caterogyReposistory.findByCaterogyName(caterogyDTO.getCaterogyName());
+        Caterogy CaterogyfromDB=caterogyRepository.findByCaterogyName(caterogyDTO.getCaterogyName());
         if(CaterogyfromDB!=null)
             throw new ApiException("Caterogy with the name"+caterogyDTO.getCaterogyName()+"already exist!!!");
-       Caterogy saveCaterogy= caterogyReposistory.save(caterogy);
+       Caterogy saveCaterogy= caterogyRepository.save(caterogy);
        CaterogyDTO savecaterogyDTO=modelMapper.map(saveCaterogy, CaterogyDTO.class);
        return savecaterogyDTO;
     }
 
     @Override
     public CaterogyDTO deleteCaterogy(Long caterogyID) {
-        Caterogy caterogy = caterogyReposistory.findById(caterogyID)
+        Caterogy caterogy = caterogyRepository.findById(caterogyID)
                 .orElseThrow(() -> new RescourceNotFoundException("Caterogy", "caterogyID", caterogyID));
 
-        caterogyReposistory.delete(caterogy);
+        caterogyRepository.delete(caterogy);
         return modelMapper.map(caterogy, CaterogyDTO.class);
     }
     @Override
     public CaterogyDTO updateCaterogy(CaterogyDTO caterogyDTO,Long caterogyID) {
-        Caterogy saveCaterogy=caterogyReposistory.findById(caterogyID)
+        Caterogy saveCaterogy=caterogyRepository.findById(caterogyID)
                 .orElseThrow(()->new RescourceNotFoundException("Caterogy","caterogyID",caterogyID));
         Caterogy caterogy=modelMapper.map(caterogyDTO, Caterogy.class);
         caterogy.setCaterogyID(caterogyID);
-        saveCaterogy=caterogyReposistory.save(caterogy);
+        saveCaterogy=caterogyRepository.save(caterogy);
         return modelMapper.map(saveCaterogy, CaterogyDTO.class);
     }
 
