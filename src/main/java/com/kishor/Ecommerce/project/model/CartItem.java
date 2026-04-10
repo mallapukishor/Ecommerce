@@ -1,12 +1,14 @@
 package com.kishor.Ecommerce.project.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
+@Getter
+@Setter
 @Table(name = "Cart_items")
 public class CartItem {
     @Id
