@@ -18,24 +18,24 @@ public class Address {
     private Long addressId;
 
     @NotBlank
-    @Size(min=5,message = "Street name must beatleast 5 characters")
+    @Size(min=5,message = "Street name must beat least 5 characters")
     private String street;
     @NotBlank
-    @Size(min = 5,message = "building name must be atleast 5 characters")
+    @Size(min = 5,message = "building name must be at least 5 characters")
     private String buildingName;
     @NotBlank
-    @Size(min = 4,message = "building name must be atleast 4 characters")
+    @Size(min = 4,message = "city name must be at least 4 characters")
     private String city;
 
     @NotBlank
-    @Size(min = 4,message = "building name must be atleast 2 characters")
+    @Size(min = 2,message = "country name must be at least 2 characters")
     private String country;
     @NotBlank
-    @Size(min = 2,message = "building name must be atleast 2 characters")
+    @Size(min = 4,message = "state name must be at least 2 characters")
     private String state;
 
     @NotBlank
-    @Size(min = 6,message = "building name must be atleast 6 characters")
+    @Size(min = 5,message = "building name must be at least 5 characters")
     private String pincode;
 
 

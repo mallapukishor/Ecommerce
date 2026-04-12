@@ -20,7 +20,7 @@ public class RescourceNotFoundException extends RuntimeException {
         this.field = field;
         this.filedId = filedId;
     }
-    public RescourceNotFoundException() {
+    public RescourceNotFoundException(String cart, String email, String emailId) {
     }
 
 
